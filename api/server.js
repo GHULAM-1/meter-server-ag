@@ -6,15 +6,15 @@ const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
-const User = require('./models/User');
+const User = require('../models/User');
 const dotenv = require('dotenv');
-const zipCodeRoutes = require('./routes/zipCodes');  // Import zipCodes.js routes
-const generationFuelMixRoute = require('./routes/generationFuelmix')
-const localForecastRoute = require('./routes/localForecast')
-const electricUsageRoutes = require('./routes/monthlyElectricUsage'); // Import the routes
-const rateOrderHistoryRoutes = require('./routes/rateOrderHistory');
-const rateToCompareRoute = require('./routes/rateToCompare'); // Import the route
-const supplierRateRoute = require('./routes/supplierRate');
+const zipCodeRoutes = require('../routes/zipCodes');  // Import zipCodes.js routes
+const generationFuelMixRoute = require('../routes/generationFuelmix')
+const localForecastRoute = require('../routes/localForecast')
+const electricUsageRoutes = require('../routes/monthlyElectricUsage'); // Import the routes
+const rateOrderHistoryRoutes = require('../routes/rateOrderHistory');
+const rateToCompareRoute = require('../routes/rateToCompare'); // Import the route
+const supplierRateRoute = require('../routes/supplierRate');
 
 // Initialize Google OAuth Client
 const client = new OAuth2Client('537737940502-6erc90mg0naa5os0n6r04kuq2j7l087k.apps.googleusercontent.com'); // Replace with your actual client ID
@@ -24,12 +24,13 @@ const app = express();
 dotenv.config(); // Load environment variables from .env file
 
 // Middleware
-app.use(cors({
-  origin: 'http://localhost:3000', // Allow frontend origin
-  methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-}));
-app.use(express.json()); // For parsing JSON data
+app.use(
+  cors({
+    origin: '*', // Allow all origins
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allow these HTTP methods
+    allowedHeaders: ['Content-Type', 'Authorization'], // Allow these headers
+  })
+);
 
 // MongoDB Connection
 mongoose.connect('mongodb+srv://gammadevelopers:1234@cluster0.0nbjd.mongodb.net/', {
